@@ -8,6 +8,6 @@
                  [ring "1.2.2"]
                  [ring/ring-json "0.3.0"]
                  [org.clojure/data.json "0.2.4"]
-                 [com.taoensso/carmine "2.4.5"]]
-  :plugins [[lein-midje "3.0.0"]]
-  :main ridetothesun2014-strava-facade.core)
+                 [com.taoensso/carmine "2.4.5"]
+                 [clj-http "0.9.1"]]
+  :plugins [[lein-midje "3.0.0"]])

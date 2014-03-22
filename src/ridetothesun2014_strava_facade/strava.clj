@@ -33,6 +33,9 @@
        (get activity-map "moving_time") 
        (get activity-map "average_cadence"))})) 
 
+(defn activity-stream [id]
+  (get (first (strava-json-resource (str base-url "activities/" id "/streams/latlng"))) "data"))
+
 (defn strava-metrics []
   (loop [ids-to-process (activity-ids)  metrics empty-metrics]
     (if (seq ids-to-process)
@@ -41,3 +44,12 @@
         (recur 
           (rest ids-to-process) 
           (merge-with + metrics current-activity))) metrics )))
+
+(defn strava-points []  
+  (loop [ids-to-process (reverse(activity-ids)) points []]
+    (if (seq ids-to-process)
+      (let [id-to-process    (first ids-to-process)
+            current-points (activity-stream id-to-process)]
+        (recur 
+          (rest ids-to-process) 
+          (concat points current-points))) points )))

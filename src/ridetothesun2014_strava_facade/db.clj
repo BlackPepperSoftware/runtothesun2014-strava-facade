@@ -14,12 +14,15 @@
            "croissants-equivalent" 
            (int(/ (get db-metrics "calories-burnt") calories-per-croissant)))))
 
+(defn gpx [](wcar* (car/get "gpx")))
+
 (defn round-metrics [m & args]
    (reduce (fn [r [k v]] (assoc r k (apply int v args))) {} m))
 
-(defn update-metrics [metrics]
+(defn update [metrics gpx]
   (wcar* 
     (car/set "metrics" (write-str (round-metrics metrics)))
+    (car/set "gpx" gpx)
     (car/set "last-updated" (quot (System/currentTimeMillis) 1000))))
 
 (defn last-updated []

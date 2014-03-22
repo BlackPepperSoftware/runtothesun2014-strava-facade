@@ -8,10 +8,10 @@
 
 (facts "Ride to the Sun 2014 Strava Facade acceptance tests"
        (fact "The facade returns metrics"
-             (update-metrics {:miles-done 970 
-                              :metres-climbed 8848 
-                              :crank-rotations 2000000 
-                              :calories-burnt 264000})    
+             (update-metrics {:miles-done 970.1
+                              :metres-climbed 8848.1 
+                              :crank-rotations 2000000.1
+                              :calories-burnt 264000.1})    
              (let [resp (app {})
                    status (:status resp)
                    headers (:headers resp)
@@ -29,9 +29,9 @@
              (let [db-metrics (metrics)]
                (last-updated) => 
                (roughly (quot (System/currentTimeMillis) 1000) 600)
-               (get db-metrics "miles-done") => 93757.4 
-               (get db-metrics "metres-climbed") => (roughly 1752.9)
+               (get db-metrics "miles-done") => 93757 
+               (get db-metrics "metres-climbed") => (roughly 1752)
                (get db-metrics "crank-rotations") => 45618 
-               (get db-metrics "calories-burnt") => 3006.1)))
+               (get db-metrics "calories-burnt") => 3006)))
 
 

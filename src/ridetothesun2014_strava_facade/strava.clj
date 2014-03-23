@@ -15,7 +15,9 @@
 (defn strava-json-resource [url]
   (json/read-str 
     (:body 
-      (client/get url {:headers {:Authorization (str "Bearer " my-key)}}))))
+      (client/get url {:headers 
+                       {:Authorization (str "Bearer " my-key)} 
+                       :query-params {:resolution "low"}}))))
 
 (defn activity-ids [] 
   (map #(get % "id") (strava-json-resource (str base-url "athlete/activities"))))

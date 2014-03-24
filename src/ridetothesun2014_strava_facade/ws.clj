@@ -5,22 +5,34 @@
         compojure.core
         ridetothesun2014-strava-facade.db)
   (:require 
-        [compojure.route :as route]))
+    [compojure.route :as route]))
 
 
 
 (defn json-response [data & [status]]
-    {:status (or status 200)
-        :headers {"Content-Type" "application/json"}
-        :body (json/write-str data)})
+  {:status (or status 200)
+   :headers {"Content-Type" "application/json"}
+   :body (json/write-str data)})
 
 (defn gpx-response [data & [status]]
-    {:status (or status 200)
-        :headers {"Content-Type" "application/gpx, application/x-gpx+xml, application/xml-gpx"}
-        :body data})
+  {:status (or status 200)
+   :headers {"Content-Type" "application/gpx, application/x-gpx+xml, application/xml-gpx"}
+   :body data})
+
+(def calories-per-croissant 400)
+(def metres-per-mile 1609)
+
+
+(defn present-metrics [raw-metrics]
+  {"miles-ridden" (/ (get raw-metrics "metres-ridden") metres-per-mile)
+   "metres-climbed" (get raw-metrics "metres-climbed")
+   "crank-rotations" (get raw-metrics "crank-rotations")
+   "calories-burnt" (get raw-metrics "calories-burnt")
+   "croissants-equivalent" (/ (get raw-metrics "calories-burnt") 
+                              calories-per-croissant)})
+
 
 (defroutes app
-    (GET "/metrics" [] (json-response (metrics)))
-    (GET "/gpx" [] (gpx-response(gpx))))
+  (GET "/metrics" [] (json-response (present-metrics (db-metrics)))))
 
 (defn -main [port] (run-jetty app  {:port (Integer. port) :join? false}))

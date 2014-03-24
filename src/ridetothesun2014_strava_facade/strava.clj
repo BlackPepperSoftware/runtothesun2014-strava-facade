@@ -22,18 +22,17 @@
 (defn activity-ids [] 
   (map #(get % "id") (strava-json-resource (str base-url "athlete/activities"))))
 
-(defn calculate-crank-rotations [elapsed-seconds rpm]
-  (int (float(* (if (nil? rpm) 90 rpm)(/ elapsed-seconds 60)))))
+(defn calculate-crank-rotations [elapsed-seconds average-cadence]
+  (int (float(* (if (nil? average-cadence) 90 average-cadence)(/ elapsed-seconds 60)))))
 
 (defn activity-details [id] 
   (let [activity-map (strava-json-resource (str base-url "activities/" id))]
-    {:miles-done (get activity-map "distance")
+    {:metres-ridden (get activity-map "distance")
      :metres-climbed (get activity-map "total_elevation_gain")
      :calories-burnt (get activity-map "calories")
-     :crank-rotations 
-     (calculate-crank-rotations 
-       (get activity-map "moving_time") 
-       (get activity-map "average_cadence"))})) 
+     :crank-rotations (calculate-crank-rotations 
+                        (get activity-map "moving_time")
+                        (get activity-map "average_cadence"))}))
 
 (defn activity-stream [id]
   (get (first (strava-json-resource (str base-url "activities/" id "/streams/latlng"))) "data"))

@@ -4,4 +4,4 @@
         ridetothesun2014-strava-facade.strava))
 
 
-(defn -main [& args] (update (strava-metrics) (points-to-gpx(strava-points))))
+(defn -main [& args] (update-db (strava-metrics) (points-to-gpx(strava-points))))

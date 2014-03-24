@@ -4,24 +4,17 @@
 
 (def server1-conn {:pool {} 
                    :spec {:uri (get (System/getenv) "REDISCLOUD_URL")}})
-(def calories-per-croissant 400) 
 
 (defmacro wcar* [& body] `(car/wcar server1-conn ~@body))
 
-(defn metrics []
-  (let [db-metrics (json/read-str(wcar* (car/get "metrics")))]
-    (assoc db-metrics 
-           "croissants-equivalent" 
-           (int(/ (get db-metrics "calories-burnt") calories-per-croissant)))))
+(defn db-metrics []
+  (json/read-str(wcar* (car/get "metrics"))))
 
-(defn gpx [](wcar* (car/get "gpx")))
+(defn db-gpx [](wcar* (car/get "gpx")))
 
-(defn round-metrics [m & args]
-   (reduce (fn [r [k v]] (assoc r k (apply int v args))) {} m))
-
-(defn update [metrics gpx]
+(defn update-db [metrics gpx]
   (wcar* 
-    (car/set "metrics" (write-str (round-metrics metrics)))
+    (car/set "metrics" (write-str metrics))
     (car/set "gpx" gpx)
     (car/set "last-updated" (quot (System/currentTimeMillis) 1000))))
 

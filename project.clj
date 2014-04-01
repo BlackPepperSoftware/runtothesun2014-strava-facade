@@ -10,7 +10,7 @@
                  [compojure "1.1.6"]
                  [org.clojure/data.json "0.2.4"]
                  [com.taoensso/carmine "2.4.5"]
-                 [clj-http "0.7.7"]
+                 [clj-http "0.9.1"]
                  [clj-time "0.6.0"]
-                 [com.gfredericks/vcr-clj "0.3.3"]]
+                 [com.gfredericks/vcr-clj "0.3.4-alpha1"]]
   :plugins [[lein-midje "3.0.0"]])

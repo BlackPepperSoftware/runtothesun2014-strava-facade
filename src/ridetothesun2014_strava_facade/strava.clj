@@ -16,7 +16,7 @@
   (json/read-str 
     (:body 
       (client/get url {:headers 
-                       {:Authorization (str "Bearer " my-key)} 
+                       {"Authorization" (str "Bearer " my-key)} 
                        :query-params {:resolution "low"}}))))
 
 (defn activity-ids [] 

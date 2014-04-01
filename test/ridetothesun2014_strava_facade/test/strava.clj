@@ -3,13 +3,15 @@
         ridetothesun2014-strava-facade.db
         ridetothesun2014-strava-facade.strava)
   (:require [clojure.test :refer :all]
-            [clojure.data.json :as json]))
+            [clojure.data.json :as json]
+            [vcr-clj.clj-http :refer [with-cassette]]))
 
 (facts "Correctly retrieves and persists strava data"
        (fact "Facade retreives strava metrics correctly"
+         (with-cassette :strava
              (let [from-strava (strava-metrics)]
                (get from-strava :metres-climbed) => (roughly 1752) 
                (get from-strava :metres-ridden) => (roughly 93800)
                (get from-strava :crank-rotations) => (roughly 45618) 
-               (get from-strava :calories-burnt) => (roughly 3006))))
+               (get from-strava :calories-burnt) => (roughly 3006)))))
 

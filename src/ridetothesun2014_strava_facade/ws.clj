@@ -33,6 +33,7 @@
 
 
 (defroutes app
-  (GET "/metrics" [] (json-response (present-metrics (db-metrics)))))
+  (GET "/metrics" [] (json-response (present-metrics (db-metrics))))
+  (GET "/gpx" [] (gpx-response(db-gpx))))
 
 (defn -main [port] (run-jetty app  {:port (Integer. port) :join? false}))

@@ -35,6 +35,11 @@
 
 (defroutes app
   (GET "/metrics" [] (json-response (present-metrics (db-metrics))))
+  (OPTIONS "/gpx" [] {:status 200
+                      :headers {"Access-Control-Allow-Origin" "*"
+                                "Access-Control-Allow-Methods" "GET, OPTIONS"
+                                "Access-Control-Allow-Headers" "X-Requested-With"
+                                "Access-Control-Max-Age" "1800"}})
   (GET "/gpx" [] (gpx-response(db-gpx))))
 
 (defn -main [port] (run-jetty app  {:port (Integer. port) :join? false}))

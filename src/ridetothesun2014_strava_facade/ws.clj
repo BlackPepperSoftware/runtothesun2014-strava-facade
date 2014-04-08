@@ -16,7 +16,8 @@
 
 (defn gpx-response [data & [status]]
   {:status (or status 200)
-   :headers {"Content-Type" "application/gpx, application/x-gpx+xml, application/xml-gpx"}
+   :headers {"Content-Type" "application/gpx, application/x-gpx+xml, application/xml-gpx"
+             "Access-Control-Allow-Origin" "*"}
    :body data})
 
 (def calories-per-croissant 400)

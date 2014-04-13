@@ -12,5 +12,6 @@
                  [com.taoensso/carmine "2.4.5"]
                  [clj-http "0.9.1"]
                  [clj-time "0.6.0"]
-                 [com.gfredericks/vcr-clj "0.3.4-alpha1"]]
+                 [com.gfredericks/vcr-clj "0.3.4-alpha1"]
+                 [org.clojure/math.numeric-tower "0.0.4"]]
   :plugins [[lein-midje "3.0.0"]])

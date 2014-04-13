@@ -5,7 +5,8 @@
         compojure.core
         ridetothesun2014-strava-facade.db)
   (:require 
-    [compojure.route :as route]))
+    [compojure.route :as route]
+    [clojure.math.numeric-tower :as math]))
 
 
 
@@ -22,15 +23,18 @@
 
 (def calories-per-croissant 400)
 (def metres-per-mile 1609)
+(def team-size 4)
 
 
 (defn present-metrics [raw-metrics]
-  {"miles-ridden" (/ (get raw-metrics "metres-ridden") metres-per-mile)
-   "metres-climbed" (get raw-metrics "metres-climbed")
-   "crank-rotations" (get raw-metrics "crank-rotations")
-   "calories-burnt" (get raw-metrics "calories-burnt")
-   "croissants-equivalent" (/ (get raw-metrics "calories-burnt") 
-                              calories-per-croissant)})
+  {"miles-ridden" (int (math/floor (/ (get raw-metrics "metres-ridden") metres-per-mile)))
+   "metres-climbed" (int (math/floor(get raw-metrics "metres-climbed")))
+   "crank-rotations" (int (math/floor(* team-size (get raw-metrics "crank-rotations"))))
+   "calories-burnt" (int (math/floor (* team-size (get raw-metrics "calories-burnt"))))
+   "croissants-equivalent" (int (math/floor 
+                             (* team-size 
+                               (/ (get raw-metrics "calories-burnt") 
+                                 calories-per-croissant))))})
 
 
 (defroutes app

@@ -33,9 +33,9 @@
    "crank-rotations" (int (math/floor(* team-size (get raw-metrics "crank-rotations"))))
    "calories-burnt" (int (math/floor (* team-size (get raw-metrics "calories-burnt"))))
    "croissants-equivalent" (int (math/floor 
-                             (* team-size 
-                               (/ (get raw-metrics "calories-burnt") 
-                                 calories-per-croissant))))})
+                                  (* team-size 
+                                     (/ (get raw-metrics "calories-burnt") 
+                                       calories-per-croissant))))})
 
 
 (defroutes app
@@ -45,6 +45,11 @@
                                 "Access-Control-Allow-Methods" "GET, OPTIONS"
                                 "Access-Control-Allow-Headers" "X-Requested-With"
                                 "Access-Control-Max-Age" "1800"}})
+  (OPTIONS "/planned-gpx" [] {:status 200
+                              :headers {"Access-Control-Allow-Origin" "*"
+                                        "Access-Control-Allow-Methods" "GET, OPTIONS"
+                                        "Access-Control-Allow-Headers" "X-Requested-With"
+                                        "Access-Control-Max-Age" "1800"}})
   (GET "/planned-gpx" [] (gpx-response (slurp (clojure.java.io/resource "france.gpx"))))
   (GET "/gpx" [] (gpx-response(db-gpx))))
 

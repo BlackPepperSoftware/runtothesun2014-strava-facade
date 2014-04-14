@@ -6,7 +6,8 @@
         ridetothesun2014-strava-facade.db)
   (:require 
     [compojure.route :as route]
-    [clojure.math.numeric-tower :as math]))
+    [clojure.math.numeric-tower :as math]
+    [clojure.java.io :as io]))
 
 
 
@@ -44,6 +45,7 @@
                                 "Access-Control-Allow-Methods" "GET, OPTIONS"
                                 "Access-Control-Allow-Headers" "X-Requested-With"
                                 "Access-Control-Max-Age" "1800"}})
+  (GET "/planned-gpx" [] (gpx-response (slurp (clojure.java.io/resource "france.gpx"))))
   (GET "/gpx" [] (gpx-response(db-gpx))))
 
 (defn -main [port] (run-jetty app  {:port (Integer. port) :join? false}))

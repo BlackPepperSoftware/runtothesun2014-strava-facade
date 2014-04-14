@@ -36,12 +36,16 @@
          (fact "calories_burnt * 4 / 400 and rounded"
                (get json-content "croissants-equivalent") => 2640)))
 
-;;       (fact "The facade returns gpx"
-;;            (update-db example-metrics "fake-gpx")
-;;           (let [resp (request "/gpx" app)
-;;                status (:status resp)
-;;               headers (:headers resp)
-;;              gpx-content (:body resp)]
-;;         status => 200
-;;        (get headers "Content-Type") => "application/gpx, application/x-gpx+xml, application/xml-gpx"
-;;       gpx-content => "fake-gpx")))
+(facts "It exposes actual and planned routes"
+       (fact "it loads and exposes planned route"
+             (let [resp (request "/planned-gpx" app)
+                   status (:status resp)
+                   headers (:headers resp)
+                   gpx-content (:body resp)]
+               status => 200
+               headers => {"Content-Type"
+                           "application/gpx, application/x-gpx+xml, application/xml-gpx"
+                           "Access-Control-Allow-Origin" "*"} 
+               gpx-content => (has-prefix "<?xml version=\"1.0\" encoding=\"UTF-8\"?>")
+               gpx-content => (contains "http://www.strava.com/routes/123367")
+               gpx-content => (has-suffix "</gpx>\n"))))

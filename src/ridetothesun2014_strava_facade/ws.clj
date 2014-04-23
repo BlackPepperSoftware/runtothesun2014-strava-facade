@@ -28,14 +28,23 @@
 
 
 (defn present-metrics [raw-metrics]
-  {"miles-ridden" (int (math/floor (/ (get raw-metrics "metres-ridden") metres-per-mile)))
-   "metres-climbed" (int (math/floor(get raw-metrics "metres-climbed")))
-   "crank-rotations" (int (math/floor(* team-size (get raw-metrics "crank-rotations"))))
-   "calories-burnt" (int (math/floor (* team-size (get raw-metrics "calories-burnt"))))
-   "croissants-equivalent" (int (math/floor 
-                                  (* team-size 
-                                     (/ (get raw-metrics "calories-burnt") 
-                                       calories-per-croissant))))})
+  (if (= raw-metrics { "metres-climbed" 0
+                      "crank-rotations" 0
+                      "miles-done" 0 
+                      "calories-burnt" 0})
+    {"miles-ridden" 0 
+     "metres-climbed" 0 
+     "crank-rotations" 0 
+     "calories-burnt" 0 
+     "croissants-equivalent" 0}
+    {"miles-ridden" (int (math/floor (/ (get raw-metrics "metres-ridden") metres-per-mile)))
+     "metres-climbed" (int (math/floor(get raw-metrics "metres-climbed")))
+     "crank-rotations" (int (math/floor(* team-size (get raw-metrics "crank-rotations"))))
+     "calories-burnt" (int (math/floor (* team-size (get raw-metrics "calories-burnt"))))
+     "croissants-equivalent" (int (math/floor 
+                                    (* team-size 
+                                       (/ (get raw-metrics "calories-burnt") 
+                                         calories-per-croissant))))}))
 
 
 (defroutes app

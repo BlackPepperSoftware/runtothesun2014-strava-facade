@@ -39,7 +39,7 @@
      "croissants-equivalent" 0}
     {"miles-ridden" (int (math/floor (/ (get raw-metrics "metres-ridden") metres-per-mile)))
      "metres-climbed" (int (math/floor(get raw-metrics "metres-climbed")))
-     "crank-rotations" (int (math/floor(* team-size (get raw-metrics "crank-rotations"))))
+     "crank-rotations" (int (math/floor (get raw-metrics "crank-rotations")))
      "calories-burnt" (int (math/floor (* team-size (get raw-metrics "calories-burnt"))))
      "croissants-equivalent" (int (math/floor 
                                     (* team-size 
